@@ -1,0 +1,42 @@
+ <div ng-show="loadingBoot.loading==true">
+    <img src="images/app-loader.gif" class="overlay">
+  </div>
+  <div ng-class="{fadeLoading:loadingBoot.loading==true}">
+ <header>
+      <h1>Juke<strong>Pro</strong></h1>
+      <form id="search" data-ng-submit="search()">
+        <input id="query" name="q" type="text" placeholder="Search a YouTube video" data-ng-model="query">
+        <input id="submit" type="image" src="images/search.png" alt="Search">
+      </form>
+</header>
+    <div id="results">
+      <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
+        <img class="video-image" data-ng-src="{{ video.thumbnail }}">
+        <p class="video-title">{{ video.title }}</p>
+        <p class="video-author">{{ video.author }}</p>
+        <p class="video-description">{{ video.description }}</p>
+      </div>
+    </div>
+    <div id="player">
+      <div id="placeholder"></div>
+    </div>
+    <div id="playlist">
+      <p id="current">{{ youtube.videoTitle }}</p>
+      <ol id="upcoming" data-ng-show="playlist">
+        <li data-ng-repeat="video in upcoming">
+          <p class="item-delete" data-ng-click="delete(upcoming, video.id)">delete</p>
+          <p class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</p>
+        </li>
+      </ol>
+      <ol id="history" data-ng-hide="playlist">
+        <li data-ng-repeat="video in history">
+          <p class="item-delete" data-ng-click="delete(history, video.id)">delete</p>
+          <p class="item-title" data-ng-click="queue(video.id, video.title)">{{video.title}}</p>
+        </li>
+      </ol>
+      <p id="tabs">
+        <a ng-class="{on:playlist}" data-ng-click="tabulate(true)">Upcoming</a>
+        <a ng-class="{on:!playlist}" data-ng-click="tabulate(false)">History</a>
+      </p>
+    </div>
+  </div>
