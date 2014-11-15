@@ -34,6 +34,6 @@ var jukeApplication=angular
         redirectTo: '/jukeApp',
       });
     },function ($httpProvider) {
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  // delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
 

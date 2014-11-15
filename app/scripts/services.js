@@ -28,7 +28,15 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
   var history = [
     {id: 'XKa7Ywiv734', title: '[OFFICIAL HD] Daft Punk - Give Life Back To Music (feat. Nile Rodgers)'}
   ];
-
+  var upArray=[];
+  var historyArray=[];
+  var prepareIdArray=function(list,array){
+  		for(var item in list){
+  			array.push(list[item].id);
+  		}
+  };
+  prepareIdArray(upcoming,upArray);
+  prepareIdArray(history,historyArray);
   $window.onYouTubeIframeAPIReady = function () {
     $log.info('Youtube API is ready');
     youtube.ready = true;
@@ -39,9 +47,10 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
 
   function onYoutubeReady (event) {
     $log.info('YouTube Player is ready');
-    youtube.player.cueVideoById(history[0].id);
-    youtube.videoId = history[0].id;
-    youtube.videoTitle = history[0].title;
+    // youtube.player.setLoop(loopPlaylists:true);
+    youtube.player.cuePlaylist(upArray);
+    youtube.videoId = upcoming[0].id;
+    youtube.videoTitle = upcoming[0].title;
   }
 
   function onYoutubeStateChange (event) {
@@ -68,10 +77,6 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
     return new YT.Player(youtube.playerId, {
       height: youtube.playerHeight,
       width: youtube.playerWidth,
-      playerVars: {
-        rel: 0,
-        showinfo: 0
-      },
       events: {
         'onReady': onYoutubeReady,
         'onStateChange': onYoutubeStateChange
@@ -115,6 +120,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
       title: title
     });
     return upcoming;
+    upArray.push(id);
   };
 
   this.archiveVideo = function (id, title) {
@@ -123,12 +129,17 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
       title: title
     });
     return history;
+    historyArray.push(id);
   };
 
-  this.deleteVideo = function (list, id) {
+  this.deleteVideo = function (list, id ,state) {
     for (var i = list.length - 1; i >= 0; i--) {
       if (list[i].id === id) {
         list.splice(i, 1);
+        if(state=="new")
+        	upArray.slice(i,1);
+        else
+        	historyArray.slice(i,1);
         break;
       }
     }

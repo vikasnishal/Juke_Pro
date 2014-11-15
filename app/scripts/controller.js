@@ -2,6 +2,7 @@
 
 	/**
 	 * @ngdoc function
+
 	 * @name jukeApp.controller
 	 */
 	var jukeCtrl=angular.module('jukeApp.controllers',[]);
@@ -35,8 +36,8 @@ jukeCtrl.controller('VideosController', function ($scope, $http, $log, VideosSer
       $log.info('Queued id:' + id + ' and title:' + title);
     };
 
-    $scope.delete = function (list, id) {
-      VideosService.deleteVideo(list, id);
+    $scope.delete = function (list, id,state) {
+      VideosService.deleteVideo(list, id,state);
     };
 
     $scope.search = function () {
