@@ -11,7 +11,7 @@
 var jukeApplication=angular
   .module('jukeApp', [
     'ngRoute','ui.bootstrap','jukeApp.controllers','jukeApp.servicesV3','jukeApp.filters',
-    'jukeApp.directives']);
+    'jukeApp.directives','LocalStorageModule']);
 
 
   jukeApplication.run(function () {
@@ -35,5 +35,10 @@ var jukeApplication=angular
       });
     },function ($httpProvider) {
   // delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    },function(localStorageServiceProvider){
+       localStorageServiceProvider
+    .setPrefix('jukeApp')
+    .setStorageType('localStorage')
+    .setNotify(true, true)
     });
 

@@ -20,12 +20,25 @@
     <div id="player">
       <div id="placeholder"></div>
     </div>
+    <div class="playerControls">
+      <img src="/images/repeat.png" class="repeatControl"  ng-class="{fadeImage:shuffleon.repeatOn==false}"
+        data-ng-click="changeRepeat(youtube.videoId,youtube.videoTitle)"
+        >
+        <img src="/images/double-back.png" class="backControl controlsImage"  ng-class="{fadeImage:(youtube.videoId==upcoming[0].id && !shuffleon.shuffleOn)}"
+        data-ng-click="playPrevious(youtube.videoId)"
+        >
+        <img src="/images/double-forward.png" class=" forwardControl controlsImage" ng-class="{fadeImage:(youtube.videoId==upcoming[upcoming.length-1].id && !shuffleon.shuffleOn)}" data-ng-click="playNext(youtube.videoId)">
+        <img src="/images/shuffle-icon2.png" class=" shuffleControl controlsShuffleImage" ng-class="{fadeShuffleImage:shuffleon.shuffleOn==false}" data-ng-click="changeShuffle()">
+
+      
+
+    </div>
     <div id="playlist">
       <p id="current">{{ youtube.videoTitle }}</p>
       <ol id="upcoming" data-ng-show="playlist">
         <li data-ng-repeat="video in upcoming">
-          <p class="item-delete" data-ng-click="delete(upcoming, video.id)">delete</p>
-          <p class="item-title" data-ng-click="launch(video.id, video.title,'new')">{{video.title}}</p>
+          <p class="item-delete" data-ng-click="delete(upcoming, video.id,'new')">delete</p>
+          <p class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</p>
         </li>
       </ol>
       <ol id="history" data-ng-hide="playlist">

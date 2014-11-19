@@ -1,9 +1,16 @@
 var jukeService=angular.module('jukeApp.servicesV3',[]);
 var jukeService=angular.module('jukeApp.servicesV3');
 
-jukeService.service('VideosService', ['$window', '$rootScope', '$log', function ($window, $rootScope, $log) {
+jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStorageService', function ($window, $rootScope, $log,localStorageService) {
 
   var service = this;
+  var storageType = localStorageService.getStorageType();
+  var submit=function(key,value){
+		    	return localStorageService.set(key, value);
+		    };
+   var getItem=function(key){
+		    	return localStorageService.get(key);
+		    };
 
   var youtube = {
     ready: false,
@@ -28,15 +35,43 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
   var history = [
     {id: 'XKa7Ywiv734', title: '[OFFICIAL HD] Daft Punk - Give Life Back To Music (feat. Nile Rodgers)'}
   ];
-  var upArray=[];
-  var historyArray=[];
-  var prepareIdArray=function(list,array){
-  		for(var item in list){
-  			array.push(list[item].id);
-  		}
+  var playControl={
+  	shuffleOn:false,
+  	repeatOn:false
   };
-  prepareIdArray(upcoming,upArray);
-  prepareIdArray(history,historyArray);
+  this.isShuffleOn=function(){
+  	return playControl;
+  };
+  this.setShuffleOn=function(){
+  	if (playControl.shuffleOn == false && upcoming.length>1){
+		           playControl.shuffleOn=true;
+		       }
+
+		        else
+		            playControl.shuffleOn=false;
+  };
+  var playMediaQuery={
+  	id:"",
+  	title:""
+  }
+  this.setRepeatOn=function(id,title){
+  	if (playControl.repeatOn == false ){
+		           playControl.repeatOn=true;
+		       }
+		        else
+		            playControl.repeatOn=false;
+	playMediaQuery.id=id;
+	playMediaQuery.title=title;	  
+  }
+  var createRandomNumber=function(start,end,id){
+		    	var randomNum = (Math.floor(Math.random() * (end - 1) + start));
+		    	if(upcoming[randomNum].id==id)
+		    		createRandomNumber(start,end,id);
+		    	return randomNum;
+		    }
+	this.createRandomNumber=function(start,end,id){
+		return createRandomNumber(start,end,id);
+	}
   $window.onYouTubeIframeAPIReady = function () {
     $log.info('Youtube API is ready');
     youtube.ready = true;
@@ -47,8 +82,9 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
 
   function onYoutubeReady (event) {
     $log.info('YouTube Player is ready');
-    // youtube.player.setLoop(loopPlaylists:true);
-    youtube.player.cuePlaylist(upArray);
+    youtube.player.loadVideoById(upcoming[0].id);
+    // youtube.player.playVideoAt(randomNum);
+    // youtube.player.setShuffle(shufflePlaylist:true);
     youtube.videoId = upcoming[0].id;
     youtube.videoTitle = upcoming[0].title;
   }
@@ -60,9 +96,21 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
       youtube.state = 'paused';
     } else if (event.data == YT.PlayerState.ENDED) {
       youtube.state = 'ended';
-      service.launchPlayer(upcoming[0].id, upcoming[0].title);
-      service.archiveVideo(upcoming[0].id, upcoming[0].title);
-      service.deleteVideo(upcoming, upcoming[0].id);
+      if(!playControl.repeatOn){
+	      if(!playControl.shuffleOn){
+	      		service.launchPlayer(upcoming[0].id, upcoming[0].title);
+	      		service.archiveVideo(upcoming[0].id, upcoming[0].title);
+	  		}
+	  		else {
+	  			var randomNum=createRandomNumber(0,upcoming.length,0);
+	  			service.launchPlayer(upcoming[randomNum].id, upcoming[randomNum].title);
+	      		service.archiveVideo(upcoming[randomNum].id, upcoming[randomNum].title);
+	  		}
+	  	}
+	  	else{
+	      		service.launchPlayer(youtube.videoId, youtube.videoTitle);	  		
+	  	}
+      // service.deleteVideo(upcoming, upcoming[0].id);
     }
     $rootScope.$apply();
   }
@@ -119,8 +167,10 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
       id: id,
       title: title
     });
+ 	submit('playlist',upcoming);
+	console.log(getItem('playlist'));
+	// $rootScope.$apply();
     return upcoming;
-    upArray.push(id);
   };
 
   this.archiveVideo = function (id, title) {
@@ -129,18 +179,17 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
       title: title
     });
     return history;
-    historyArray.push(id);
   };
 
   this.deleteVideo = function (list, id ,state) {
     for (var i = list.length - 1; i >= 0; i--) {
       if (list[i].id === id) {
-        list.splice(i, 1);
-        if(state=="new")
-        	upArray.slice(i,1);
-        else
-        	historyArray.slice(i,1);
-        break;
+      	list.splice(i, 1)
+      	if(state=='new')
+      		submit('playlist',list);
+      	else if(state=='old')
+      		submit('historylist',list);
+        	console.log(getItem('playlist'));
       }
     }
   };
@@ -154,11 +203,25 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log', function 
   };
 
   this.getUpcoming = function () {
-    return upcoming;
+		if(getItem('playlist')==null){
+			submit('playlist',upcoming);
+			return upcoming;
+		}
+		else{
+			upcoming=getItem('playlist');
+			return upcoming;
+		};
   };
 
   this.getHistory = function () {
-    return history;
+  	if(getItem('historylist')==null){
+  			submit('historylist',history);
+			return history;
+		}
+		else{
+			history=getItem('historylist');
+			return history;
+		};
   };
-
+		    
 }]);
