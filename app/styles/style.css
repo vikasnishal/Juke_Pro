@@ -66,7 +66,7 @@ h1 strong,#playlist,.video-title {
 }
 
 header {
-	background: linear-gradient(to right, red , rgb(111, 49, 61));
+	background: linear-gradient(to right, rgb(113, 126, 247) , rgb(140, 137, 137));
 	color: white;
 	height: 80px;
 	padding: 20px 0;
@@ -275,6 +275,8 @@ nav {
 .item-title:hover {
 	background: #1171A2;
 	color: white;
+	border-radius:20px;
+	border:1px solid #1171A2;
 	
 }
 

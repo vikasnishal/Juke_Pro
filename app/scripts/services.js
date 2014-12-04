@@ -1,5 +1,4 @@
 var jukeService=angular.module('jukeApp.servicesV3',[]);
-var jukeService=angular.module('jukeApp.servicesV3');
 
 jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStorageService', function ($window, $rootScope, $log,localStorageService) {
 
@@ -20,17 +19,12 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
     videoTitle: null,
     playerHeight: '480',
     playerWidth: '550',
-    state: 'stopped'
+    state: 'stopped',
+    origin:"http://localhost:9000"
   };
   var results = [];
   var upcoming = [
     {id: 'kRJuY6ZDLPo', title: 'La Roux - In for the Kill (Twelves Remix)'},
-    {id: '45YSGFctLws', title: 'Shout Out Louds - Illusions'},
-    {id: 'ktoaj1IpTbw', title: 'CHVRCHES - Gun'},
-    {id: '8Zh0tY2NfLs', title: 'N.E.R.D. ft. Nelly Furtado - Hot N\' Fun (Boys Noize Remix) HQ'},
-    {id: 'zwJPcRtbzDk', title: 'Daft Punk - Human After All (SebastiAn Remix)'},
-    {id: 'sEwM6ERq0gc', title: 'HAIM - Forever (Official Music Video)'},
-    {id: 'fTK4XTvZWmk', title: 'Housse De Racket â˜â˜€â˜ Apocalypso'}
   ];
   var history = [
     {id: 'XKa7Ywiv734', title: '[OFFICIAL HD] Daft Punk - Give Life Back To Music (feat. Nile Rodgers)'}
@@ -98,8 +92,13 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
       youtube.state = 'ended';
       if(!playControl.repeatOn){
 	      if(!playControl.shuffleOn){
-	      		service.launchPlayer(upcoming[0].id, upcoming[0].title);
-	      		service.archiveVideo(upcoming[0].id, upcoming[0].title);
+	      		for (var video in upcoming) {
+                    if (upcoming[video].id == youtube.videoId) {
+                        video++;
+                        service.launchPlayer(upcoming[video].id, upcoming[video].title);
+                        return;
+                    }
+                }
 	  		}
 	  		else {
 	  			var randomNum=createRandomNumber(0,upcoming.length,0);
@@ -133,6 +132,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
   };
 
   this.loadPlayer = function () {
+    console.log("player is loaded");
     if (youtube.ready && youtube.playerId) {
       if (youtube.player) {
         youtube.player.destroy();
