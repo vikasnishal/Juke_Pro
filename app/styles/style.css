@@ -1,11 +1,29 @@
+
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Open Sans'), local('OpenSans'),
+		url(https://themes.googleusercontent.com/static/fonts/opensans/v8/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff)
+		format('woff');
+}
+.bodyClass{
+	background: url("../images/dgren007.jpg");
+	background-repeat: repeat;
+}
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td
 	{
 	font-style: normal;
 	font-weight: normal;
+	font-family: 'Open Sans';
 	margin: 0;
 	padding: 0;
+	
 }
 
+hr{
+	margin-top: 5px !important;
+}
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -45,15 +63,9 @@ html {
 	background-color: #8C8989;
 }
 
-body {
-	margin: 0 auto 100px;
-	position: relative;
-	width: 1100px;
-	margin: auto;
-}
-
 a {
 	cursor: pointer;
+	text-decoration: none;
 }
 
 body,input {
@@ -66,17 +78,24 @@ h1 strong,#playlist,.video-title {
 }
 
 header {
-	background: linear-gradient(to right, rgb(113, 126, 247) , rgb(140, 137, 137));
+	background: linear-gradient(to right, rgb(0, 0, 0) , rgb(45, 72, 64));
 	color: white;
 	height: 80px;
 	padding: 20px 0;
 }
-
-h1 {
+.appBody{
+	margin: 0 auto 100px;
+	position: relative;
+	width: 1100px;
+	margin: auto;
+}
+.app-title {
 	float: left;
-	line-height: 40px;
-	text-align: center;
-	width: 160px;
+	max-width: 160px;
+	max-height: 35px;
+	margin-right: 15px;
+	margin-top: 4px;
+	margin-left: 10px;
 }
 .overlay {
 	display: block;
@@ -89,6 +108,7 @@ h1 {
 .fadeLoading {
 	opacity: 0.2;
 }
+/*classes realted to header*/
 #search {
 	float: left;
 	height: 40px;
@@ -97,9 +117,9 @@ h1 {
 }
 
 #query {
-	background: linear-gradient(to right, red , rgb(111, 49, 61));	border: none;
+	background: linear-gradient(to right, rgb(245, 236, 236) , rgb(206, 203, 216));	border: none;
 	border-radius: 20px;
-	color: white;
+	color: black;
 	float: left;
 	height: 35px;
 	line-height: 30px;
@@ -116,7 +136,22 @@ nav {
 	text-align: center;
 	width: 180px;
 }
-
+.loginLink{
+	margin-top: 5px;
+	font-size: 13px;
+	display: inline-block;
+	cursor: pointer;
+	letter-spacing: 1px;
+}
+.loginLink:hover{
+	color:rgb(156, 156, 235);
+}
+.divider{
+	position: relative;
+	width: 1px;
+	font-size: 14px;
+}
+/**/
 #play,#pause {
 	cursor: pointer;
 }
@@ -127,58 +162,61 @@ nav {
 .playerControls{
 	position: absolute;
 	right: 0px;
-	top: 563px;
+	top: 560px;
+	width: 550px;
+	padding-left:15px;
+	background: rgb(34, 36, 42);
 }
-.backControl{
-	position: relative;
-	right:430px;
-}
-.forwardControl{
-	position: relative;
-	right:415px;
-}
+
 .controlsImage{
 	max-width:29px;
 	max-height: 36px;
 	cursor: pointer;
+	margin:6px 10px;
+
 }
 .controlsShuffleImage{
-	max-width:40px;
-	max-height: 42px;
+	max-width:29px;
+	max-height: 29px;
 	cursor: pointer;
-}
-.shuffleControl{
-	position: relative;
-	right:400px;
-	top:3px;
+	margin:6px 10px;
 }
 .fadeImage{
-	opacity: 0.2;
+	opacity: 0.4;
 	cursor: default;
 }
 .fadeShuffleImage{
-	opacity: 0.6;
+	opacity: 0.4;
 }
 
 .repeatControl{
-	position: relative;
-	right: 240px;
-	max-height: 33px;
-	top: -1px;
+	max-height: 29px;
 	cursor: pointer;
+	margin:6px 10px;
 }
+/*classes related to results*/
 #results {
-	background: #f2f5fd;
-	background: #f5f5f5;
+	background: #EFF0F2;
 	height: 944px;
 	overflow-x: hidden;
 	width: 550px;
 	margin-bottom: 20px
 }
+.playVideo{
+	max-width: 30px;
+	max-height: 30px;
+	opacity: 0;
+	transition: opacity 1s;
+	float: right;
+	position: relative;
+	top: -25px;
+
+}
+
 
 .video {
 	cursor: pointer;
-	min-height: 90px;
+	min-height: 110px;
 	padding: 10px;
 	padding-left: 140px;
 	position: relative;
@@ -214,8 +252,13 @@ nav {
 .video:hover {
 	background: #22242a;
 	color: white;
+}.video:hover>.playVideo{
+	opacity:1;
 }
-
+.video:hover>.video-description{
+	color:rgb(156, 156, 235);
+}
+/**/
 #player,#playlist {
 	background: white;
 	height: 480px;
@@ -245,7 +288,8 @@ nav {
 #current {
 	color: white;
 	font-size: 20px;
-	padding: 20px;
+	padding: 10px 20px;
+	border-top: 1px solid #33363f;
 }
 
 #playlist ol,#playlist li {
@@ -329,21 +373,26 @@ nav {
 }
 
 footer {
-	color: #888;
-	font-size: 16px;
-	padding: 20px 0;
+	color: white;
+	font-size: 12px;
+	padding-bottom: 20px;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
-footer em {
-	float: right;
-	font-style: normal;
+	width: 300px;
+	margin: auto;
+	letter-spacing: 1px;
+	cursor: pointer;
 }
 
 footer a {
-	color: #666;
+	color: white ;
+	
 }
 
-footer a:hover {
-	color: #444;
+footer a:hover,footer a:link{
+	color:rgb(156, 156, 235);
+	text-decoration: none;
+}
+footer em {
+	float: right;
+	font-style: normal;
 }

@@ -1,6 +1,15 @@
 var jukeService=angular.module('jukeApp.servicesV3',[]);
+//config service
+jukeService.service('config', ['$location', function($location) {
 
-jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStorageService', function ($window, $rootScope, $log,localStorageService) {
+  var hosturl = $location.protocol() + "://" + $location.host()
+      + ($location.port() ? ":" + $location.port() : "") + "/"
+      + $location.absUrl().split("/")[3];
+  this.prefix = hosturl + "/api/store/api";
+  this.pdfPrefix = hosturl + "/api/store/pdf";
+}]);
+//VideoService
+jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStorageService','$timeout','$http','$location', function ($window, $rootScope, $log,localStorageService,$timeout,$http,$location) {
 
   var service = this;
   var storageType = localStorageService.getStorageType();
@@ -74,13 +83,13 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
     $rootScope.$apply();
   };
 
-  function onYoutubeReady (event) {
+  function onYoutubeReady () {
     $log.info('YouTube Player is ready');
-    youtube.player.loadVideoById(upcoming[0].id);
-    // youtube.player.playVideoAt(randomNum);
-    // youtube.player.setShuffle(shufflePlaylist:true);
-    youtube.videoId = upcoming[0].id;
-    youtube.videoTitle = upcoming[0].title;
+    // youtube.player.loadVideoById(videoId);
+    // // youtube.player.playVideoAt(randomNum);
+    // // youtube.player.setShuffle(shufflePlaylist:true);
+    // youtube.videoId = videoId;
+    // youtube.videoTitle = title;
   }
 
   function onYoutubeStateChange (event) {
@@ -91,6 +100,8 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
     } else if (event.data == YT.PlayerState.ENDED) {
       youtube.state = 'ended';
       if(!playControl.repeatOn){
+        if(upcoming.length==1)
+              return;
 	      if(!playControl.shuffleOn){
 	      		for (var video in upcoming) {
                     if (upcoming[video].id == youtube.videoId) {
@@ -101,6 +112,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
                 }
 	  		}
 	  		else {
+
 	  			var randomNum=createRandomNumber(0,upcoming.length,0);
 	  			service.launchPlayer(upcoming[randomNum].id, upcoming[randomNum].title);
 	      		service.archiveVideo(upcoming[randomNum].id, upcoming[randomNum].title);
@@ -142,10 +154,24 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
   };
 
   this.launchPlayer = function (id, title) {
+    if (youtube.ready && youtube.playerId) {
     youtube.player.loadVideoById(id);
     youtube.videoId = id;
     youtube.videoTitle = title;
     return youtube;
+  }
+  else {
+    youtube.ready = true;
+    service.bindPlayer('placeholder');
+    service.loadPlayer();
+    var timeout=$timeout(function(){
+      youtube.player.loadVideoById(id);
+      youtube.videoId = id;
+      youtube.videoTitle = title;
+      return youtube;
+    },2000);
+    
+  }
   }
 
   this.listResults = function (data) {
@@ -223,5 +249,19 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
 			return history;
 		};
   };
+  this.searchQuery=function(query){
+      return $http.get('https://www.googleapis.com/youtube/v3/search', {
+                    params: {
+                        key: 'AIzaSyBMBhKQT8s8pJq9AkFbRfP66KvgktwgLBA',
+                        type: 'video',
+                        maxResults: '8',
+                        order:'viewCount',
+                        videoDuration:'medium',
+                        part: 'id,snippet',
+                        fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default',
+                        q: query
+                    }
+                })
+  }
 		    
 }]);

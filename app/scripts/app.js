@@ -23,22 +23,24 @@ var jukeApplication=angular
 
 
 
-  jukeApplication.config( 
-    function($routeProvider){
+  jukeApplication.config( ['$routeProvider','localStorageServiceProvider',
+    function($routeProvider,localStorageServiceProvider){
       $routeProvider
       .when('/jukeApp',{
         templateUrl:'views/home.html',
         controller:'VideosController'
-      })
-      .otherwise({
+      });
+      $routeProvider
+      .when('/contact',{
+        templateUrl:'views/contact.html',
+        controller:'ContactController'
+      });
+      $routeProvider.otherwise({
         redirectTo: '/jukeApp',
       });
-    },function ($httpProvider) {
-  // delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    },function(localStorageServiceProvider){
-       localStorageServiceProvider
+      localStorageServiceProvider
     .setPrefix('jukeApp')
     .setStorageType('localStorage')
     .setNotify(true, true)
-    });
+    }]);
 
