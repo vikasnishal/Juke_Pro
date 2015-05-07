@@ -1,69 +1,85 @@
- <div ng-show="loadingBoot.loading==true">
-    <img src="images/app-loader.gif" class="overlay">
-  </div>
-  <div ng-class="{fadeLoading:loadingBoot.loading==true}">
-    <header>
+<div ng-show="loadingBoot.loading==true">
+  <img src="images/app-loader.gif" class="overlay">
+</div>
+<div ng-class="{fadeLoading:loadingBoot.loading==true}">
+  <header>
     <div class="row-fluid">
       <div class="span20">
-      <img src="/images/title-logo2.png" class="app-title" ng-click="loadPage(/)">
-      <form id="search" data-ng-submit="search()">
-        <input id="query" name="q" type="text" placeholder="Search a YouTube video" data-ng-model="query">
-        <input id="submit" type="image" src="images/search.png" alt="Search">
-      </form>
-    </div>
-    <span class=" loginLink" ng-click="login()" >LOGIN</span>
-      <span class="divider">|</span>
-    <span class="loginLink float-right" ng-click="login()" >REGISTER</span>
+        <img src="/images/title-logo2.png" class="app-title" ng-click="loadPage(/)">
+        <form id="search" data-ng-submit="search(query)">
+          <input id="query" name="q" type="text" placeholder="Search a YouTube video" data-ng-model="query">
+          <input id="submit" type="image" src="images/search.png" alt="Search">
+        </form>
+      </div>
+      <div class="span4" >
+        <span class=" loginLink" ng-click="login()" >LOGIN</span>
+        <span class="divider">|</span>
+        <span class="loginLink float-right" ng-click="register()" >REGISTER</span>
+      </div>
+      <!-- <div class="span4" ng-show="user.email!=''">
+        <span class=" loginLink" ng-click="login()" ng-bind="user.email"></span>
+        <span class="divider">|</span>
+        <span class="loginLink float-right" ng-click="logout()" >Logout</span>
+      </div> -->
 
     </div>
-    <hr>
-    </header>
+  </header>
 
-    <div id="results">
-      <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
-        <img class="video-image" data-ng-src="{{ video.thumbnail }}">
-        <p class="video-title">{{ video.title }}</p>
-        <!--<p class="video-author">{{ video.author }}</p>-->
-        <p class="video-description">{{ video.description }}</p>
-        <img src="/images/play-icon2.gif" class="playVideo" ng-click="launch(video.id,video.title)">
+  <div class="container">
+    <div class="row">
+      <div id="results" class="col-sm-6 padding-zero">
+        <div class="video" data-ng-repeat="video in results" data-ng-click="queue(video.id, video.title)">
+          <img class="video-image" data-ng-src="{{ video.thumbnail }}">
+          <p class="video-title">{{ video.title }}</p>
+          <!--<p class="video-author">{{ video.author }}</p>-->
+          <p class="video-description">{{ video.description }}</p>
+          <img src="/images/play-icon2.gif" class="playVideo" ng-click="launch(video.id,video.title)">
+        </div>
+      </div>
+      <div class="col-sm-6 home-right-side">
+        <div id="player">
+          <div id="placeholder"></div>
+        </div>
+        <div class="playerControls">
+
+          <img src="/images/double-back.gif" class=" controlsImage float-left"  ng-class="{fadeImage:(youtube.videoId==upcoming[0].id && !shuffleon.shuffleOn)}"
+          data-ng-click="playPrevious(youtube.videoId)"
+          >
+          <img src="/images/double-forward.gif" class="  controlsImage float-left" ng-class="{fadeImage:(youtube.videoId==upcoming[upcoming.length-1].id && !shuffleon.shuffleOn)}" data-ng-click="playNext(youtube.videoId)">
+          <img src="/images/shuffle-icon.gif" class="  controlsShuffleImage float-left" ng-class="{fadeShuffleImage:shuffleon.shuffleOn==false}" data-ng-click="changeShuffle()">
+          <img src="/images/repeat.gif" class="repeatControl float-left"  ng-class="{fadeImage:shuffleon.repeatOn==false}"
+          data-ng-click="changeRepeat(youtube.videoId,youtube.videoTitle)"
+          >
+        </div>
+        <div id="playlist">
+          <p id="current" ng-show="youtube.videoTitle!=undefined">{{ youtube.videoTitle }}</p>
+          <ol id="upcoming" data-ng-show="playlist">
+            <li data-ng-repeat="video in upcoming">
+              <p class="item-delete" data-ng-click="delete(upcoming, video.id,'new')">delete</p>
+              <p class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</p>
+            </li>
+          </ol>
+          <ol id="history" data-ng-hide="playlist">
+            <li data-ng-repeat="video in history">
+              <p class="item-delete" data-ng-click="delete(history, video.id ,'old')">delete</p>
+              <p class="item-title" data-ng-click="queue(video.id, video.title)">{{video.title}}</p>
+            </li>
+          </ol>
+        </div>
+        <div class="row row-margin-zero">
+          <div class="col-sm-6 playlistState clickable" ng-class="{on:playlist}" data-ng-click="tabulate(true)">
+            <a  >Upcoming</a>
+          </div>
+          <div class="col-sm-6 playlistState clickable" ng-class="{on:!playlist}" data-ng-click="tabulate(false)">
+            <a  >History</a>
+          </div>
+        </div>
       </div>
     </div>
-    <div id="player">
-      <div id="placeholder"></div>
-    </div>
-    <div class="playerControls">
-      
-        <img src="/images/double-back.gif" class=" controlsImage float-left"  ng-class="{fadeImage:(youtube.videoId==upcoming[0].id && !shuffleon.shuffleOn)}"
-        data-ng-click="playPrevious(youtube.videoId)"
-        >
-        <img src="/images/double-forward.gif" class="  controlsImage float-left" ng-class="{fadeImage:(youtube.videoId==upcoming[upcoming.length-1].id && !shuffleon.shuffleOn)}" data-ng-click="playNext(youtube.videoId)">
-        <img src="/images/shuffle-icon.gif" class="  controlsShuffleImage float-left" ng-class="{fadeShuffleImage:shuffleon.shuffleOn==false}" data-ng-click="changeShuffle()">
-        <img src="/images/repeat.gif" class="repeatControl float-left"  ng-class="{fadeImage:shuffleon.repeatOn==false}"
-        data-ng-click="changeRepeat(youtube.videoId,youtube.videoTitle)"
-        >
-    </div>
-    <div id="playlist">
-      <p id="current" ng-show="youtube.videoTitle!=undefined">{{ youtube.videoTitle }}</p>
-      <ol id="upcoming" data-ng-show="playlist">
-        <li data-ng-repeat="video in upcoming">
-          <p class="item-delete" data-ng-click="delete(upcoming, video.id,'new')">delete</p>
-          <p class="item-title" data-ng-click="launch(video.id, video.title)">{{video.title}}</p>
-        </li>
-      </ol>
-      <ol id="history" data-ng-hide="playlist">
-        <li data-ng-repeat="video in history">
-          <p class="item-delete" data-ng-click="delete(history, video.id ,'old')">delete</p>
-          <p class="item-title" data-ng-click="queue(video.id, video.title)">{{video.title}}</p>
-        </li>
-      </ol>
-      <p id="tabs">
-        <a ng-class="{on:playlist}" data-ng-click="tabulate(true)">Upcoming</a>
-        <a ng-class="{on:!playlist}" data-ng-click="tabulate(false)">History</a>
-      </p>
-    </div>
-    <footer >
-      <a href="" ng-click="">ABOUT</a>
-      <span> | </span>
-      <a href="" ng-click="">CONTACT</a>
-    </footer>
   </div>
+  <footer >
+    <!-- <a href="" ng-click="">ABOUT</a>
+    <span> | </span>
+    <a href="" ng-click="">CONTACT</a> -->
+  </footer>
+</div>

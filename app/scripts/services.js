@@ -27,7 +27,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
     videoId: null,
     videoTitle: null,
     playerHeight: '480',
-    playerWidth: '550',
+    playerWidth: '570',
     state: 'stopped',
     origin:"http://localhost:9000"
   };
@@ -248,6 +248,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
 			history=getItem('historylist');
 			return history;
 		};
+    
   };
   this.searchQuery=function(query){
       return $http.get('https://www.googleapis.com/youtube/v3/search', {

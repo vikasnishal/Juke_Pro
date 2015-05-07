@@ -8,8 +8,11 @@
 		format('woff');
 }
 .bodyClass{
-	background: url("../images/dgren007.jpg");
+	background: url("../images/final_background.jpg");
 	background-repeat: repeat;
+}
+.clickable{
+	cursor: pointer;
 }
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td
 	{
@@ -20,7 +23,17 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,
 	padding: 0;
 	
 }
-
+label{
+	text-align:right;
+	margin-top:5px;
+	font-size: 14px
+}
+.row-margin-zero{
+	margin:0px;
+}
+.padding-zero{
+	padding:0px !important;
+}
 hr{
 	margin-top: 5px !important;
 }
@@ -78,7 +91,7 @@ h1 strong,#playlist,.video-title {
 }
 
 header {
-	background: linear-gradient(to right, rgb(0, 0, 0) , rgb(45, 72, 64));
+	background: linear-gradient(to right, rgb(51, 42, 37) , rgb(56, 55, 60));
 	color: white;
 	height: 80px;
 	padding: 20px 0;
@@ -97,6 +110,10 @@ header {
 	margin-top: 4px;
 	margin-left: 10px;
 }
+.container{
+	width:1100px;
+	padding: 0px
+}
 .overlay {
 	display: block;
 	position: fixed;
@@ -113,7 +130,7 @@ header {
 	float: left;
 	height: 40px;
 	position: relative;
-	width: 750px;
+	width: 780px;
 }
 
 #query {
@@ -124,7 +141,7 @@ header {
 	height: 35px;
 	line-height: 30px;
 	padding: 5px 20px;
-	width: 700px;
+	width: 730px;
 }
 
 #query:focus {
@@ -137,7 +154,7 @@ nav {
 	width: 180px;
 }
 .loginLink{
-	margin-top: 5px;
+	margin-top: 10px;
 	font-size: 13px;
 	display: inline-block;
 	cursor: pointer;
@@ -159,11 +176,13 @@ nav {
 #pause {
 	display: none;
 }
+.home-right-side{
+	padding:0px;
+}
 .playerControls{
-	position: absolute;
+	/*position: absolute;*/
 	right: 0px;
 	top: 560px;
-	width: 550px;
 	padding-left:15px;
 	background: rgb(34, 36, 42);
 }
@@ -199,8 +218,8 @@ nav {
 	background: #EFF0F2;
 	height: 944px;
 	overflow-x: hidden;
-	width: 550px;
-	margin-bottom: 20px
+	
+
 }
 .playVideo{
 	max-width: 30px;
@@ -235,6 +254,7 @@ nav {
 
 .video-title {
 	padding-top: 5px;
+	font-size: 17px;
 }
 
 .video-author {
@@ -263,10 +283,10 @@ nav {
 	background: white;
 	height: 480px;
 	overflow: hidden;
-	position: absolute;
-	right: 0;
+	/*position: absolute;*/
+	margin-left: 0px;
 	top: 80px;
-	width: 550px;
+	/*width: 550px;*/
 
 }
 
@@ -278,11 +298,11 @@ nav {
 	background: #22242a;
 	color: #727785;
 	font-size: 16px;
-	height: 424px;
+	height: 379px;
 	overflow-x: hidden;
-	top: 600px;
-	width: 550px;
-	margin-bottom: 20px;
+	/*top: 600px;*/
+	/*width: 550px;*/
+	/*margin-bottom: 20px;*/
 }
 
 #current {
@@ -298,7 +318,7 @@ nav {
 
 #playlist ol {
 	border-bottom: 1px solid #33363f;
-	height: 300px;
+	height: 379px;
 	overflow-x: hidden;
 }
 
@@ -349,9 +369,9 @@ nav {
 	height: 45px;
 	left: 0;
 	line-height: 45px;
-	position: absolute;
+	/*position: absolute;*/
 	text-align: center;
-	width: 100%;
+	/*width: 100%;*/
 }
 
 #tabs {
@@ -366,10 +386,16 @@ nav {
 #tabs a:last-child {
 	left: 50%;
 }
-
-#tabs .on {
-	background: #22242a;
+.on {
+	background: #39404F !important;
 	color: white;
+}
+.playlistState{
+	height:44px;
+	padding-top: 12px;
+	text-align: center;
+	font-size: 16px;
+	background-color: rgb(34, 36, 42);
 }
 
 footer {
@@ -378,6 +404,7 @@ footer {
 	padding-bottom: 20px;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 	width: 300px;
+	margin-top:20px;
 	margin: auto;
 	letter-spacing: 1px;
 	cursor: pointer;
@@ -395,4 +422,90 @@ footer a:hover,footer a:link{
 footer em {
 	float: right;
 	font-style: normal;
+}
+.modal-content{
+	height:330px !important;
+}
+.login-modal-email{
+	padding-left:20px;
+	display:block;
+	margin-left:149px;
+	margin-top:30px;
+	height:50px;
+	width:300px;
+	font-size: 16px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border:1px rgb(192, 190, 190) solid;
+}
+.login-modal-password{
+	padding-left:20px;
+	display:block;
+	margin-left:149px;
+	height:50px;
+	width:300px;
+	font-size:16px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border:1px rgb(192, 190, 190) solid;
+	border-top: none;
+}
+.login-modal-button{
+	display:block;
+	margin-left:149px;
+	margin-top:20px;
+	height:40px;
+	width:300px;
+	background-color: #3fa654;
+	color:white;
+}
+.login-modal-action{
+	display:block;
+	margin-left:149px;
+	margin-top:10px;
+	width:300px;
+	text-align:center;
+	font-size: 14px;
+}
+.signup-modal-button{
+	display:block;
+	margin-left:149px;
+	margin-top:10px;
+	height:40px;
+	width:300px;
+	background-image: radial-gradient(ellipse at center,rgba(75, 102, 125, 1) 0%, rgba(68, 133, 199, 1) 100%);
+	color:white;
+}
+.register-modal-container{
+	padding:30px 20px;
+}
+.register-modal-name{
+	font-size: 13px;
+	height:30px;
+}
+.register-modal-lastname{
+	margin-left:10px;
+	font-size: 13px;
+	height:30px;
+}
+.register-modal-email{
+	margin-top: 10px;
+}
+.register-modal-emailInput{
+	padding-left: 15px;
+	font-size: 13px;
+	width:290px;
+	height:30px;
+}
+.register-modal-password{
+	margin-top:10px;
+}
+.register-modal-signup-button{
+	display:block;
+	margin-left:139px;
+	margin-top:15px;
+	height:40px;
+	width:290px;
+	background-image: radial-gradient(ellipse at center,rgba(75, 102, 125, 1) 0%, rgba(68, 133, 199, 1) 100%);
+	color:white;
 }

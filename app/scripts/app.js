@@ -11,7 +11,7 @@
 var jukeApplication=angular
   .module('jukeApp', [
     'ngRoute','ui.bootstrap','jukeApp.controllers','jukeApp.servicesV3','jukeApp.filters',
-    'jukeApp.directives','LocalStorageModule']);
+    'jukeApp.directives','LocalStorageModule','firebase']);
 
 
   jukeApplication.run(function () {
@@ -22,7 +22,7 @@ var jukeApplication=angular
 });
 
 
-
+  jukeApplication.constant('FIREBASE_URL', 'https://glaring-fire-3581.firebaseio.com');
   jukeApplication.config( ['$routeProvider','localStorageServiceProvider',
     function($routeProvider,localStorageServiceProvider){
       $routeProvider

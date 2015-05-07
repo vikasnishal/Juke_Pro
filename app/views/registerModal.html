@@ -1,0 +1,21 @@
+<div class="register-modal-container">
+	<!-- <div class="row row-margin-zero ">
+		<label class="firstName col-sm-2 col-sm-offset-1">Name*</label>
+		<input type="text" id="firstName" class="col-sm-3  register-modal-name" placeholder="First Name">
+		<input type="text" id="lastName" class="col-sm-3  register-modal-lastname" placeholder="Last Name">
+	</div> -->
+	<div class="row row-margin-zero register-modal-email">
+		<label class="firstName col-sm-2 col-sm-offset-1">Email Id*</label>
+		<input type="text" id="firstName" class=" register-modal-emailInput" placeholder="example@example.com" ng-model="newUser.email">
+	</div>
+	<!-- <div class="row row-margin-zero register-modal-email">
+		<label class="firstName col-sm-2 col-sm-offset-1">Mobile</label>
+		<input type="text" id="firstName" class=" register-modal-emailInput" placeholder="Mobile">
+	</div> -->
+	<div class="row row-margin-zero register-modal-password">
+		<label class="firstName col-sm-2 col-sm-offset-1">Password*</label>
+		<input type="text" id="firstName" class="col-sm-3  register-modal-name" placeholder="Enter Password" ng-model="newUser.password">
+		<input type="text" id="lastName" class="col-sm-3  register-modal-lastname" placeholder="Confirm Password" ng-model="newUser.confirmPassword">
+	</div>
+	<button class="btn register-modal-signup-button" ng-click="register(newUser)">Sign up now!</button>
+</div>
