@@ -5,6 +5,6 @@ Play your songs from youtube at the go.Create playlist with features like shuffl
 
 After cloning the project run the following commands up and running.
 
-npm install & bower install & grunt serve
+npm install && bower install && grunt serve
 
 
