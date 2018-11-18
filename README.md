@@ -7,4 +7,5 @@ After cloning the project run the following commands up and running.
 
 npm install && bower install && grunt serve
 
+For live demo, visit https://vikasnishal.github.io/Juke_Pro/
 
