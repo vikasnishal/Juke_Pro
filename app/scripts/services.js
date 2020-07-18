@@ -253,7 +253,7 @@ jukeService.service('VideosService', ['$window', '$rootScope', '$log','localStor
   this.searchQuery=function(query){
       return $http.get('https://www.googleapis.com/youtube/v3/search', {
                     params: {
-                        key: 'AIzaSyBMBhKQT8s8pJq9AkFbRfP66KvgktwgLBA',
+                        key: 'AIzaSyDH6OIM74sXrUs4_t-2cmfotq3PVRl_CfM',
                         type: 'video',
                         maxResults: '8',
                         order:'viewCount',
