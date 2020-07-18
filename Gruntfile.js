@@ -239,7 +239,7 @@ livereload: {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-        src: '{,*/}*.{png,jpg,jpeg,gif}',
+        src: '[{,*/}*.{png,jpg,jpeg,gif}]',
         dest: '<%= yeoman.dist %>/images'
       }]
     }
@@ -305,7 +305,7 @@ htmlmin: {
           '.htaccess',
           '*.html',
         'views/{,*/}*.html',
-      'images/{,*/}*.{webp}',
+      'images/{,*/}*.{webp,png,jpg,jpeg,gif}',
       'lib/**',
       'fonts/*'
       ]
